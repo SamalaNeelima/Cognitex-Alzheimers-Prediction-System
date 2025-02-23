@@ -71,11 +71,10 @@ def predict_alzheimer(image):
 
 
 # ✅ Insert Data into MySQL
-def insert_data(patient_name, age, gender, mobile_no, prediction, image):
+def insert_data(patient_name, age, gender, mobile_no, prediction):
     """Stores patient details and MRI scan in MySQL database."""
     try:
-        
-        sql = "INSERT INTO predicts (name, age, gender, contact, diagnosis_condition, image) VALUES (%s, %s, %s, %s, %s, %s)"
+        sql = "INSERT INTO predicts (name, age, gender, contact, diagnosis_condition) VALUES (%s, %s, %s, %s, %s)"
         val = (patient_name, age, gender, mobile_no, prediction)
         mycursor.execute(sql, val)
         mydb.commit()
@@ -124,9 +123,7 @@ def generate_pdf(patient_name, age, gender, mobile_no, condition):
     else:
         pdf.cell(200, 10, "🎉 Congratulations! No Dementia Detected.", ln=True)
 
-    temp_img_path = "temp_mri_scan.jpg"
-    mri_image.resize((200, 200)).save(temp_img_path)
-    pdf.image(temp_img_path, x=30, w=150)
+    
 
     pdf_file_path = "Alzheimer_Report.pdf"
     pdf.output(pdf_file_path)
@@ -160,7 +157,7 @@ def prediction_page():
             st.success(f"✅ Prediction Complete! Patient Condition: **{condition}**")
 
             # ✅ Generate & Download PDF Report
-            pdf_bytes = generate_pdf(patient_name, age, gender, mobile_no, condition, image)
+            pdf_bytes = generate_pdf(patient_name, age, gender, mobile_no, condition)
             st.download_button("📄 Download Report", pdf_bytes, "Alzheimer_Report.pdf", "application/pdf")
 
 # ✅ Run Streamlit App

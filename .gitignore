@@ -1,0 +1,9 @@
+__pycache__/
+.conda/
+mlruns/
+
+.streamlit/secrets.toml
+logs.log
+
+test.ipynb
+test2.ipynb
